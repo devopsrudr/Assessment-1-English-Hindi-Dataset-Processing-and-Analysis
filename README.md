@@ -122,9 +122,9 @@ Contains:
 Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/devopsrudr/Assessment-1-English-Hindi-Dataset-Processing-and-Analysis
 
-cd your-repository
+cd English-Hindi-Translation-Assessment
 ```
 
 ---
