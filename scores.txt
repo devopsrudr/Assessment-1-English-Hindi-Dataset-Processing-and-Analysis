@@ -1,0 +1,13 @@
+Assignment 2 - Translation Evaluation Scores
+==================================================
+Model used: Helsinki-NLP/opus-mt-en-hi
+Number of sentences evaluated: 100
+Reference translations: Hindi sentences from the Assignment 1 cleaned dataset (ainlpml/english-hindi)
+--------------------------------------------------
+BLEU: 15.5066
+CHRF: 36.2912
+TER: 83.5172
+--------------------------------------------------
+Notes:
+  - BLEU and CHRF: higher is better (0-100 scale).
+  - TER (Translation Edit Rate): lower is better (0 = perfect match, can exceed 100 for very poor output).
