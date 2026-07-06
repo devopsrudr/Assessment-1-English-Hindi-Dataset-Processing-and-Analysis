@@ -40,10 +40,4 @@
 ## Result
 From 10,000 raw pairs → **8,214 pairs** survive both filters.
 
-## Note on the raw data
-`../data/eng.txt` and `../data/hin.txt` are **not committed to git** (see
-`.gitignore`) because the source dataset is gated — redistributing it
-directly isn't appropriate. Anyone reproducing this project should run
-`download_dataset.py` themselves after agreeing to the dataset's terms.
-The final **cleaned Excel output**, which is what the assignment asks you to
-submit, **is** committed.
+
