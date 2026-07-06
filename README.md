@@ -1,59 +1,233 @@
-Assignment 2 – English to Hindi Translation using an LLM
-Overview
-In this assignment, I translated English sentences into Hindi using a locally running open-source Large Language Model from Hugging Face. The translated sentences were then evaluated against the original Hindi sentences from the dataset using three standard machine translation metrics: BLEU, CHRF, and TER.
-The cleaned dataset generated in Assignment 1 is used as the input for this task.
-Requirements
-Before running this assignment, make sure that Assignment 1 has been completed successfully. The following file should already be available:
-assignment1_dataset_processing/output/cleaned_english_hindi_dataset.xlsx
-The translation model will be downloaded automatically the first time the script is executed, so an internet connection is required for the initial setup.
-Running the Project
-Open the project folder in Visual Studio Code.
-Open a new terminal from Terminal → New Terminal.
-Run the following command:
-bash setup_and_run.sh
-This script will:
-Create a virtual environment (if needed)
-Install all required Python packages
-Download the translation model (only on the first run)
-Translate the English sentences into Hindi
-Calculate BLEU, CHRF, and TER scores
-Save all generated outputs automatically
-If you prefer, you can also execute the Python script manually after activating the virtual environment.
-Output Files
-After the script finishes, the following files will be created inside the output folder.
-translations.xlsx
-This Excel file contains:
-English Sentence	Generated Hindi Translation
-scores.txt
-This file contains:
-BLEU Score
-CHRF Score
-TER Score
-Name of the translation model used
-Number of sentences evaluated
-Running with Different Settings
-To run the script manually:
-source venv/bin/activate
+# English–Hindi Dataset Processing and Machine Translation
 
-python3 translate_and_evaluate.py \
-    --num-sentences 100 \
-    --model Helsinki-NLP/opus-mt-en-hi
-You can also experiment with another Hugging Face translation model. For example:
-python3 translate_and_evaluate.py \
-    --model facebook/nllb-200-distilled-600M
-Evaluation Metrics
-The quality of the generated translations is measured using three commonly used machine translation metrics.
-BLEU
-BLEU measures how closely the generated translation matches the reference translation by comparing word sequences. A higher BLEU score generally indicates better translation quality.
-CHRF
-CHRF compares translations at the character level instead of the word level. Since Hindi is morphologically rich, CHRF often provides a more reliable estimate of translation quality.
-TER (Translation Edit Rate)
-TER calculates the number of edits required to transform the generated translation into the reference translation. Unlike BLEU and CHRF, a lower TER score indicates better performance.
-Model Used
-For this assignment, the translation was performed using the Hugging Face model:
+This repository contains my solutions for the English–Hindi Dataset Processing and Translation assessment. The project is divided into two parts:
+
+- **Assignment 1:** Dataset processing and filtering
+- **Assignment 2:** English to Hindi translation using a Hugging Face language model and evaluation using standard machine translation metrics.
+
+The implementation is entirely done in Python and is designed to be simple, modular, and easy to reproduce.
+
+---
+
+# Project Structure
+
+```
+.
+├── assignment1_dataset_processing/
+│   ├── process_dataset.py
+│   ├── download_dataset.py
+│   ├── requirements.txt
+│   ├── README.md
+│   └── output/
+│       └── cleaned_english_hindi_dataset.xlsx
+│
+├── assignment2_translation/
+│   ├── translate_and_evaluate.py
+│   ├── setup_and_run.sh
+│   ├── requirements.txt
+│   ├── README.md
+│   └── output/
+│       ├── translations.xlsx
+│       └── scores.txt
+│
+├── data/
+│
+└── README.md
+```
+
+---
+
+# Assignment 1 – Dataset Processing
+
+The first part of the project focuses on preparing a clean English–Hindi parallel dataset.
+
+The processing pipeline performs the following steps:
+
+- Loads the English and Hindi sentence pairs
+- Calculates the word count for both languages
+- Keeps only sentence pairs where:
+  - English sentence length is between **5 and 50 words**
+  - Hindi sentence length is between **5 and 50 words**
+- Computes the word count difference between English and Hindi
+- Retains only sentence pairs where the difference lies between **-10 and +10**
+- Exports the cleaned dataset to an Excel file
+
+### Output
+
+```
+assignment1_dataset_processing/output/
+└── cleaned_english_hindi_dataset.xlsx
+```
+
+The Excel file contains the following columns:
+
+- English Sentence
+- Hindi Sentence
+- Word Count (English)
+- Word Count (Hindi)
+- Difference (English − Hindi)
+
+---
+
+# Assignment 2 – Machine Translation
+
+The second assignment translates English sentences into Hindi using a Hugging Face translation model.
+
+For this project I used:
+
+```
 Helsinki-NLP/opus-mt-en-hi
-This model provides a good balance between translation quality and inference speed, making it suitable for English-to-Hindi machine translation on a local machine.
-Notes
-The first execution may take a few minutes because the translation model needs to be downloaded.
-Once downloaded, the model is cached locally, so future runs will be significantly faster.
+```
+
+The script translates the first **100 English sentences** from the cleaned dataset and compares the generated translations with the reference Hindi sentences.
+
+The translation quality is evaluated using:
+
+- BLEU
+- CHRF
+- TER (Translation Edit Rate)
+
+---
+
+# Output
+
+```
+assignment2_translation/output/
+
+translations.xlsx
+scores.txt
+```
+
+### translations.xlsx
+
+Contains:
+
+- Original English Sentence
+- Model Generated Hindi Translation
+
+### scores.txt
+
+Contains:
+
+- BLEU Score
+- CHRF Score
+- TER Score
+- Model Name
+- Number of Sentences Evaluated
+
+---
+
+# Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/your-username/your-repository.git
+
+cd your-repository
+```
+
+---
+
+# Install Dependencies
+
+For Assignment 1
+
+```bash
+cd assignment1_dataset_processing
+
+pip install -r requirements.txt
+```
+
+For Assignment 2
+
+```bash
+cd assignment2_translation
+
+pip install -r requirements.txt
+```
+
+---
+
+# Running Assignment 1
+
+Download the dataset (only once if required)
+
+```bash
+python download_dataset.py
+```
+
+Process the dataset
+
+```bash
+python process_dataset.py
+```
+
+---
+
+# Running Assignment 2
+
+Run the complete translation pipeline
+
+```bash
+bash setup_and_run.sh
+```
+
+or manually
+
+```bash
+python translate_and_evaluate.py
+```
+
+---
+
+# Evaluation Metrics
+
+### BLEU
+
+Measures how closely the generated translation matches the reference translation based on n-gram overlap.
+
+Higher score indicates better translation quality.
+
+### CHRF
+
+Evaluates translations using character-level n-grams.
+
+It generally performs well for morphologically rich languages such as Hindi.
+
+Higher score is better.
+
+### TER
+
+Translation Edit Rate measures how many edits are required to transform the generated translation into the reference translation.
+
+Lower score indicates better performance.
+
+---
+
+# Technologies Used
+
+- Python 3
+- Pandas
+- Hugging Face Datasets
+- Hugging Face Transformers
+- PyTorch
+- SacreBLEU
+- OpenPyXL
+
+---
+
+# Notes
+
+- The translation model is downloaded automatically the first time the script is executed.
+- After the initial download, all future runs use the locally cached model.
+- The raw dataset is not included in this repository because it is distributed under Hugging Face's access policy. Please download it separately before running the scripts.
+
+---
+
+# Author
+
+**Rudra Banerjee**
+
+This repository was created as part of an English–Hindi Dataset Processing and Machine Translation assessment.future runs will be significantly faster.
 Only the first 100 English sentences from the cleaned dataset are translated, as required in the assignment.
